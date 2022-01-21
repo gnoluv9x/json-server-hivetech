@@ -11,4 +11,8 @@ You can run:
     Dùng "@faker-js/faker" để random dữ liệu
     Dùng fs system built in nodejs để đọc và ghi file vào trong db.json
 
-# Có hỗ trợ filter, sort, paginate...
+# Có hỗ trợ filter, sort, paginate
+
+xem json server docs
+
+# /api/restaurants
