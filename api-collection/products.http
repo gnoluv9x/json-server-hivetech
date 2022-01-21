@@ -1,0 +1,63 @@
+@baseUrl=http://localhost:4004/api
+@resourceName=products
+
+# Products
+
+# @name getAll
+GET {{baseUrl}}/{{resourceName}}
+
+###
+# @name getById
+GET {{baseUrl}}/{{resourceName}}/GXOysfw
+
+###
+
+# @name filterProducts
+GET {{baseUrl}}/{{resourceName}}?color=magenta
+
+###
+
+# @name filterProducts
+GET {{baseUrl}}/{{resourceName}}?name_like=tasty
+
+
+###
+
+# @name pagination
+GET {{baseUrl}}/{{resourceName}}?_page=1&_limit=5
+
+###
+
+# @name sort
+GET {{baseUrl}}/{{resourceName}}?_sort=price&_order=desc
+
+
+###
+
+# @name addNew
+POST {{baseUrl}}/{{resourceName}}
+Content-Type: application/json
+
+{
+"categoryId": "1ace1afe-5834-4ada-a70d-14ff49e4c7f4",
+"name": "Dell 5502 laptop",
+"color": "gray",
+"price": 900,
+"thumbnail": "http://placeimg.com/400/400/food"
+}
+###
+
+# @name update
+PATCH {{baseUrl}}/{{resourceName}}/B91wboS
+Content-Type: application/json
+
+{
+  "name": "Bluezone guard",
+  "color": "red",
+  "price": 950
+}
+
+###
+
+# @name remove
+DELETE {{baseUrl}}/{{resourceName}}/GXOysfw
