@@ -10,3 +10,5 @@ You can run:
 -   random.js
     Dùng "@faker-js/faker" để random dữ liệu
     Dùng fs system built in nodejs để đọc và ghi file vào trong db.json
+
+# Có hỗ trợ filter, sort, paginate...
