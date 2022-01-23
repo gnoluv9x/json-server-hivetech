@@ -56,8 +56,15 @@ server.post("/auth/login", (req, res) => {
             const bytes = utf8.encode(password);
             const encoded = base64.encode(bytes);
             const access_token = createToken({ email, password });
-            res.status(200).json({ access_token, password, email, id });
+            res.status(200).json({ access_token, password: encoded, email, id });
         }
+    }
+});
+// get user
+server.get("/users", (req, res) => {
+    const user = userdb.users;
+    if (user) {
+        res.jsonp(user);
     }
 });
 
@@ -120,6 +127,15 @@ server.post("/auth/register", (req, res) => {
 server.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    if (req.method === "POST") {
+        req.body.createdAt = Date.now();
+        req.body.updatedAt = Date.now();
+    }
+    if (req.method === "PATCH") {
+        req.body.updatedAt = Date.now();
+    }
+    // Continue to JSON Server router
+    next();
     if (req.method === "POST") {
         req.body.createdAt = Date.now();
         req.body.updatedAt = Date.now();
