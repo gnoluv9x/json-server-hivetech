@@ -37,6 +37,7 @@ function randomRestaurant(numbersOfRestaurant) {
     // prepare data
     const db = {
         restaurants: listRestaurant,
+        users: [],
     };
     // write to db.json
     fs.writeFile("./db.json", JSON.stringify(db), () => {

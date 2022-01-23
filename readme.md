@@ -15,4 +15,8 @@ You can run:
 
 xem json server docs
 
-# /api/restaurants
+# /restaurants
+
+# /auth/login
+
+# /auth/register
