@@ -42,6 +42,8 @@ function isAuthenticated({ email, password }) {
 
 server.post("/auth/login", (req, res) => {
     const { email, password } = req.body;
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     if (isAuthenticated({ email, password }) === false) {
         const status = 401;
         const message = "Incorrect email or password";
