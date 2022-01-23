@@ -118,6 +118,8 @@ server.post("/auth/register", (req, res) => {
 // You can use the one used by JSON Server
 
 server.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     if (req.method === "POST") {
         req.body.createdAt = Date.now();
         req.body.updatedAt = Date.now();
