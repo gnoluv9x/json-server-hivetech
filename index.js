@@ -129,7 +129,7 @@ server.delete("/restaurants/:id", (req, res) => {
         const message = "Xoa file thanh cong";
         res.status(200).json({ status, message });
     } else {
-        const status = 400;
+        const status = 204;
         const message = "Xoa file that bai";
         res.status(200).json({ status, message });
     }
