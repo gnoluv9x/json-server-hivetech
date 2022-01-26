@@ -75,6 +75,12 @@ server.get("/users", (req, res) => {
     }
 });
 
+// get restaurants
+server.get("/restaurants", (req, res) => {
+    const { restaurants } = getValueFromDB();
+    res.jsonp(restaurants);
+});
+
 // /auth/register
 server.post("/auth/register", (req, res) => {
     const { email, password } = req.body;
@@ -129,11 +135,11 @@ server.delete("/restaurants/:id", (req, res) => {
 
         const status = 200;
         const message = "Xoa file thanh cong";
-        res.status(200).json({ status, message });
+        res.status(200).jsonp({ status, message });
     } else {
         const status = 204;
         const message = "Xoa file that bai";
-        res.status(204).json({ status, message });
+        res.status(204).jsonp({ status, message });
     }
 });
 
