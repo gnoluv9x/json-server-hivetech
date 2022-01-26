@@ -113,13 +113,14 @@ server.delete("/restaurants/:id", (req, res) => {
     const userdb = getValueFromDB();
     const param = req.params;
     const listRest = userdb.restaurants;
+    const listUser = userdb.users;
     const index = listRest.findIndex(res => res.restaurantId === param.id);
     if (index !== -1) {
-        const newRest = userdb.restaurants.filter(item => item.restaurantId !== param.id);
+        const newRest = listRest.filter(item => item.restaurantId !== param.id);
 
         const db = {
             restaurants: [...newRest],
-            users: [...userdb.users],
+            users: [...listUser],
         };
 
         fs.writeFile("./db.json", JSON.stringify(db), () => {
