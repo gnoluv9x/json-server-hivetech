@@ -1,9 +1,10 @@
+const cors = require("cors");
 // server.js
 const queryString = require("query-string");
 const fs = require("fs");
 const jsonServer = require("json-server");
 const server = jsonServer.create();
-
+server.use(cors());
 const middlewares = jsonServer.defaults();
 const router = jsonServer.router("./db.json");
 
@@ -139,7 +140,6 @@ server.delete("/restaurants/:id", (req, res) => {
 // You can use the one used by JSON Server
 
 server.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.method === "POST") {
         req.body.createdAt = Date.now();
         req.body.updatedAt = Date.now();

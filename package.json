@@ -13,10 +13,11 @@
     "license": "ISC",
     "dependencies": {
         "@faker-js/faker": "^6.0.0-alpha.3",
+        "base-64": "^1.0.0",
+        "cors": "^2.8.5",
         "json-server": "^0.17.0",
         "jsonwebtoken": "^8.5.1",
         "query-string": "^7.1.0",
-        "base-64": "^1.0.0",
         "utf8": "^3.0.0"
     },
     "devDependencies": {
