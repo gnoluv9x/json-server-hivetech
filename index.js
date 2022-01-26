@@ -39,6 +39,10 @@ function isAuthenticated({ email, password }) {
         userdb.users.findIndex(user => user.email === email && user.password === password) !== -1
     );
 }
+// get value from db.json
+function getValueFromDB() {
+    return JSON.parse(fs.readFileSync("./db.json", "UTF-8"));
+}
 
 server.post("/auth/login", (req, res) => {
     const { email, password } = req.body;
@@ -87,7 +91,7 @@ server.post("/auth/register", (req, res) => {
             name: email,
         };
 
-        const userdb = JSON.parse(fs.readFileSync("./db.json", "UTF-8"));
+        const userdb = getValueFromDB();
 
         const db = {
             restaurants: [...userdb.restaurants],
@@ -103,25 +107,33 @@ server.post("/auth/register", (req, res) => {
     }
 });
 
-// server.use(/^(?!\/auth).*$/, (req, res, next) => {
-//     if (
-//         req.headers.authorization === undefined ||
-//         req.headers.authorization.split(" ")[0] !== "Bearer"
-//     ) {
-//         const status = 401;
-//         const message = "Bad authorization header";
-//         res.status(status).json({ status, message });
-//         return;
-//     }
-//     try {
-//         verifyToken(req.headers.authorization.split(" ")[1]);
-//         next();
-//     } catch (err) {
-//         const status = 401;
-//         const message = "Error: access_token is not valid";
-//         res.status(status).json({ status, message });
-//     }
-// });
+// DELETE //restaurants/:id
+server.delete("/res/:id", (req, res) => {
+    const userdb = getValueFromDB();
+    const param = req.params;
+    const listRest = userdb.restaurants;
+    const index = listRest.findIndex(res => res.restaurantId === param.id);
+    if (index !== -1) {
+        const newRest = userdb.restaurants.filter(item => item.restaurantId !== param.id);
+
+        const db = {
+            restaurants: [...newRest],
+            users: [...userdb.users],
+        };
+
+        fs.writeFile("./db.json", JSON.stringify(db), () => {
+            console.log("Successfully :))");
+        });
+
+        const status = 200;
+        const message = "Xoa file thanh cong";
+        res.status(200).json({ status, message });
+    } else {
+        const status = 400;
+        const message = "Xoa file that bai";
+        res.status(200).json({ status, message });
+    }
+});
 
 // To handle POST, PUT and PATCH you need to use a body-parser
 // You can use the one used by JSON Server
