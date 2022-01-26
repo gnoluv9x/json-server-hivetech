@@ -108,7 +108,7 @@ server.post("/auth/register", (req, res) => {
 });
 
 // DELETE //restaurants/:id
-server.delete("/res/:id", (req, res) => {
+server.delete("/restaurants/:id", (req, res) => {
     const userdb = getValueFromDB();
     const param = req.params;
     const listRest = userdb.restaurants;
