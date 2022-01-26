@@ -139,6 +139,7 @@ server.delete("/restaurants/:id", (req, res) => {
 // You can use the one used by JSON Server
 
 server.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", `http://localhost:3000`);
     if (req.method === "POST") {
         req.body.createdAt = Date.now();
         req.body.updatedAt = Date.now();
