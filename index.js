@@ -5,6 +5,7 @@ const fs = require("fs");
 const jsonServer = require("json-server");
 const server = jsonServer.create();
 server.use(cors());
+
 const middlewares = jsonServer.defaults();
 const router = jsonServer.router("./db.json");
 
@@ -45,6 +46,19 @@ function getValueFromDB() {
     return JSON.parse(fs.readFileSync("./db.json", "UTF-8"));
 }
 
+// get user by id
+server.get("/restaurants/:restaurantId", (req, res) => {
+    const { restaurants } = getValueFromDB();
+    const params = req.params;
+    const restaurant = restaurants.find(res => res.restaurantId === params.restaurantId);
+    if (restaurant) {
+        res.status(200).jsonp(restaurant);
+    } else {
+        res.status(401).json({ message: "Not id in db" });
+    }
+});
+
+// login
 server.post("/auth/login", (req, res) => {
     const { email, password } = req.body;
     res.header("Access-Control-Allow-Origin", "*");
@@ -139,6 +153,41 @@ server.delete("/restaurants/:id", (req, res) => {
     } else {
         const status = 204;
         const message = "Xoa file that bai";
+        res.status(204).jsonp({ status, message });
+    }
+});
+
+// STATUS /status/:id
+server.patch("/restaurants/:restaurantId", (req, res) => {
+    const userdb = getValueFromDB();
+    const param = req.params;
+    const newstatus = req.body.status;
+    const listRest = userdb.restaurants;
+    const listUser = userdb.users;
+    const index = listRest.findIndex(res => res.restaurantId === param.restaurantId);
+    if (index !== -1) {
+        const newRest = listRest.map(item => {
+            if (item.restaurantId === param.restaurantId) {
+                item.status = newstatus;
+            }
+            return item;
+        });
+
+        const db = {
+            restaurants: [...newRest],
+            users: [...listUser],
+        };
+
+        fs.writeFile("./db.json", JSON.stringify(db), () => {
+            console.log("Successfully :))");
+        });
+
+        const status = 200;
+        const message = "Thay doi trang thai thanh cong";
+        res.status(200).jsonp({ status, message });
+    } else {
+        const status = 204;
+        const message = "Thay doi trang thai that bai";
         res.status(204).jsonp({ status, message });
     }
 });
