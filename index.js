@@ -46,18 +46,6 @@ function getValueFromDB() {
     return JSON.parse(fs.readFileSync("./db.json", "UTF-8"));
 }
 
-// get user by id
-server.get("/restaurants/:restaurantId", (req, res) => {
-    const { restaurants } = getValueFromDB();
-    const params = req.params;
-    const restaurant = restaurants.find(res => res.restaurantId === params.restaurantId);
-    if (restaurant) {
-        res.status(200).jsonp(restaurant);
-    } else {
-        res.status(401).json({ message: "Not id in db" });
-    }
-});
-
 // login
 server.post("/auth/login", (req, res) => {
     const { email, password } = req.body;
@@ -81,18 +69,13 @@ server.post("/auth/login", (req, res) => {
         }
     }
 });
+
 // get user
 server.get("/users", (req, res) => {
     const user = userdb.users;
     if (user) {
         res.jsonp(user);
     }
-});
-
-// get restaurants
-server.get("/restaurants", (req, res) => {
-    const { restaurants } = getValueFromDB();
-    res.jsonp(restaurants);
 });
 
 // /auth/register
@@ -127,6 +110,24 @@ server.post("/auth/register", (req, res) => {
         res.status(200).json({ status, message });
     }
 });
+// ============================= Restaurants ============================
+// get restaurants
+server.get("/restaurants", (req, res) => {
+    const { restaurants } = getValueFromDB();
+    res.jsonp(restaurants);
+});
+
+// get restaurant by id
+server.get("/restaurants/:restaurantId", (req, res) => {
+    const { restaurants } = getValueFromDB();
+    const params = req.params;
+    const restaurant = restaurants.find(res => res.restaurantId === params.restaurantId);
+    if (restaurant) {
+        res.status(200).jsonp(restaurant);
+    } else {
+        res.status(401).json({ message: "Not id in db" });
+    }
+});
 
 // DELETE //restaurants/:id
 server.delete("/restaurants/:id", (req, res) => {
@@ -157,18 +158,17 @@ server.delete("/restaurants/:id", (req, res) => {
     }
 });
 
-// STATUS /status/:id
-server.patch("/restaurants/:restaurantId", (req, res) => {
+// change status  /restaurants/status/:id
+server.patch("/restaurants/status/:restaurantId", (req, res) => {
     const userdb = getValueFromDB();
     const param = req.params;
-    const newstatus = req.body.status;
     const listRest = userdb.restaurants;
     const listUser = userdb.users;
     const index = listRest.findIndex(res => res.restaurantId === param.restaurantId);
     if (index !== -1) {
         const newRest = listRest.map(item => {
             if (item.restaurantId === param.restaurantId) {
-                item.status = newstatus;
+                item.status = !item.status;
             }
             return item;
         });

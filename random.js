@@ -19,7 +19,6 @@ function randomRestaurant(numbersOfRestaurant) {
     const listRestaurant = [];
     Array.from(new Array(numbersOfRestaurant)).forEach(() => {
         const restaurant = {
-            id: faker.datatype.uuid(),
             restaurantId: faker.datatype.uuid(),
             restaurantName: faker.name.lastName("female"),
             phoneNumber: faker.phone.phoneNumber(),
