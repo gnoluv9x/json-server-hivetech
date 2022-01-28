@@ -3,16 +3,17 @@ const fs = require("fs");
 //locale
 faker.locale = "vi";
 
-function randomListSetName(maxSetName) {
-    if (maxSetName <= 0) return [];
-    const listSetName = [];
-    const randomSetName = Math.ceil(Math.random() * maxSetName);
-    for (let i = 1; i <= randomSetName; i++) {
-        listSetName.push(faker.animal.dog());
-    }
+function randomDescription(numberOfDesc) {
+    if (numberOfDesc <= 0) return "";
+    const listDesc = [];
 
-    return listSetName;
+    Array.from(new Array(numberOfDesc)).forEach(() => {
+        listDesc.push(faker.random.word());
+    });
+
+    return listDesc.join(", ");
 }
+
 function randomRestaurant(numbersOfRestaurant) {
     if (numbersOfRestaurant <= 0) return [];
     const listRestaurant = [];
@@ -24,7 +25,13 @@ function randomRestaurant(numbersOfRestaurant) {
             phoneNumber: faker.phone.phoneNumber(),
             status: faker.datatype.boolean(),
             address: faker.address.cityName(),
-            setName: randomListSetName(5),
+            sets: [
+                {
+                    setId: faker.datatype.uuid(),
+                    description: randomDescription(3),
+                    setName: faker.animal.type(),
+                },
+            ],
         };
 
         listRestaurant.push(restaurant);
