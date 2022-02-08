@@ -129,6 +129,27 @@ server.get("/restaurants/:restaurantId", (req, res) => {
     }
 });
 
+// POST /restaurants
+server.post("/restaurants", (req, res) => {
+    const { restaurants, users } = getValueFromDB();
+    const data = req.body;
+    const newRest = {
+        ...data,
+        restaurantId: faker.datatype.uuid(),
+    };
+    restaurants.push(newRest);
+
+    const db = {
+        restaurants: [...restaurants],
+        users: [...users],
+    };
+
+    fs.writeFile("./db.json", JSON.stringify(db), () => {
+        console.log("Successfully :))");
+    });
+    res.status(200).json({ status: 200, message: "Adding rest successfully!" });
+});
+
 // DELETE //restaurants/:id
 server.delete("/restaurants/:id", (req, res) => {
     const userdb = getValueFromDB();
